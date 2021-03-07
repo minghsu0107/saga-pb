@@ -86,7 +86,6 @@ service SagaOrderService {
 }
 
 
-
 message CreatePaymentCmd {
     uint64 payment_id = 1;
     Order order = 2;
