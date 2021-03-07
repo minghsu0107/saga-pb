@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package purchase;
+option go_package = ".;pb";
+
+import "google/protobuf/timestamp.proto";
+ 
+
+// data schemas
+message Purchase {
+    Order order = 1;
+    Payment payment = 2;
+}
+message Order {
+    uint64 customer_id = 1;
+    repeated PurchasedItem purchased_items = 2;
+}
+message PurchasedItem {
+    uint64 product_id = 1;
+    int64 amount = 2;
+}
+message Payment {
+    string currency_code = 1;
+}
+
+
+// purchase cmd
+message CreatePurchase {
+    Purchase purchase = 1;
+    google.protobuf.Timestamp timestamp = 2;
+}
+// purchase result event
+message PurchaseResult {
+    uint64 customer_id = 1;
+    PurchaseStep step = 2;
+    PurchaseStatus status = 3;
+    google.protobuf.Timestamp timestamp = 4;
+}
+enum PurchaseStep {
+    STEP_UPDATE_PRODUCT_INVENTORY = 0;
+    STEP_CREATE_ORDER = 1;
+    STEP_CREATE_PAYMENT = 2;
+}
+enum PurchaseStatus {
+    STATUS_EXUCUTE = 0;
+    STATUS_SUCCESS = 1;
+    STATUS_FAILED = 2;
+    STATUS_ROLLBACKED = 3;
+    STATUS_ROLLBACK_FAIL = 4;
+}
+
+
+message GeneralResponse {
+    bool success = 1;
+    string error = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+
+
+message UpdateProductInventoryCmd {
+    repeated PurchasedItem purchased_items = 1;
+    google.protobuf.Timestamp timestamp = 2;
+}
+message RollbackProductInventoryCmd {
+    repeated PurchasedItem purchased_items = 1;
+    google.protobuf.Timestamp timestamp = 2;
+}
+service SagaProductService {
+    rpc UpdateProductInventory(UpdateProductInventoryCmd) returns (GeneralResponse) {};
+    rpc RollbackProductInventory(RollbackProductInventoryCmd) returns (GeneralResponse) {};
+}
+
+
+message CreateOrderCmd {
+    uint64 order_id = 1;
+    Order order = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+message RollbackOrderCmd {
+    uint64 order_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+}
+service SagaOrderService {
+    rpc CreateOrder(CreateOrderCmd) returns (GeneralResponse) {};
+    rpc RollbackOrder(RollbackOrderCmd) returns (GeneralResponse) {};
+}
+
+
+
+message CreatePaymentCmd {
+    uint64 payment_id = 1;
+    Order order = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+message RollbackPaymentCmd {
+    uint64 payment_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+}
+service SagaPaymentService {
+    rpc CreatePayment(CreatePaymentCmd) returns (GeneralResponse) {};
+    rpc RollbackPayment(RollbackPaymentCmd) returns (GeneralResponse) {};
+}
