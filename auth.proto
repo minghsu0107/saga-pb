@@ -9,8 +9,7 @@ message AuthPayload {
 }
 message AuthResponse {
     uint64 customer_id = 1;
-    bool active = 2;
-    bool expired = 3;
+    bool expired = 2;
 }
 service AuthService {
     rpc Auth(AuthPayload) returns (AuthResponse) {};
