@@ -62,8 +62,7 @@ message UpdateProductInventoryCmd {
     google.protobuf.Timestamp timestamp = 2;
 }
 message RollbackProductInventoryCmd {
-    repeated PurchasedItem purchased_items = 1;
-    google.protobuf.Timestamp timestamp = 2;
+    google.protobuf.Timestamp timestamp = 1;
 }
 service SagaProductService {
     rpc UpdateProductInventory(UpdateProductInventoryCmd) returns (GeneralResponse) {};
