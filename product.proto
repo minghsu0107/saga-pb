@@ -22,13 +22,13 @@ enum Status {
     STATUS_OK = 0;
     STATUS_NOT_FOUND = 1;
 }
-message GetProductDetailsRequest {
+message GetProductsRequest {
     repeated uint64 product_id = 1;
 } 
-message ProductDetails {
-    repeated ProductDetail product_details = 1;
+message Products {
+    repeated Product products = 1;
 }
-message ProductDetail {
+message Product {
     uint64 product_id = 1;
     string product_name = 2;
     string description = 3;
@@ -37,5 +37,5 @@ message ProductDetail {
 }
 service ProductService {
     rpc CheckProducts(CheckProductsRequest) returns (CheckProductsResponse) {};
-    rpc GetProductDetails(GetProductDetailsRequest) returns (ProductDetails) {};
+    rpc GetProducts(GetProductsRequest) returns (Products) {};
 }
