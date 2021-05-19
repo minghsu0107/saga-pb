@@ -34,6 +34,7 @@ message Product {
     string description = 3;
     string brand_name = 4;
     int64 inventory = 5;
+    int64 price = 6;
 }
 service ProductService {
     rpc CheckProducts(CheckProductsRequest) returns (CheckProductsResponse) {};
