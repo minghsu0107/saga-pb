@@ -32,9 +32,10 @@ message CreatePurchase {
 // purchase result event
 message PurchaseResult {
     uint64 customer_id = 1;
-    PurchaseStep step = 2;
-    PurchaseStatus status = 3;
-    google.protobuf.Timestamp timestamp = 4;
+    uint64 purchase_id = 2;
+    PurchaseStep step = 3;
+    PurchaseStatus status = 4;
+    google.protobuf.Timestamp timestamp = 5;
 }
 enum PurchaseStep {
     STEP_UPDATE_PRODUCT_INVENTORY = 0;
