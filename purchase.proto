@@ -88,7 +88,7 @@ service SagaOrderService {
 
 message CreatePaymentCmd {
     uint64 payment_id = 1;
-    Order order = 2;
+    Purchase purchase = 2;
     google.protobuf.Timestamp timestamp = 3;
 }
 message RollbackPaymentCmd {
