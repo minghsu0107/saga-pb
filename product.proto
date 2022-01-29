@@ -24,7 +24,7 @@ enum Status {
     STATUS_NOT_FOUND = 1;
 }
 message GetProductsRequest {
-    repeated uint64 product_id = 1;
+    repeated uint64 product_ids = 1;
 } 
 message Products {
     repeated Product products = 1;
